@@ -1,0 +1,46 @@
+openapi: 3.0.3
+
+info:
+  title: Microsoft.eShopWeb.Web API
+  description: API for order management
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:5000
+
+paths:
+  /orders/my:
+    get:
+      tags:
+        - OrderController
+      operationId: MyOrdersOperation
+      responses:
+        '200':
+          description: Get my orders
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error responders'
+        '400':
+          description: Bad request
+        '500':
+          description: Internal server error
+
+  /orders/{orderId}:
+    get:
+      tags:
+        - OrderController
+      operationId: GetOrderDetailsOperation
+      responses:
+        '200':
+          description: Get order details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error responders'
+        '400':
+          description: Bad request
+        '404':
+          description: Order not found
+        '500':
+          description: Internal server error

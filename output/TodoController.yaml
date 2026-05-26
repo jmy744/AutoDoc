@@ -3,172 +3,199 @@ info:
   title: Sample API
   version: 1.0.0
 paths:
-  /api/Todo/{id?}:
-    get:
-      summary: Get all Todo
-      tags: [Todo]
-      operationId: GetAllTodo
-      responses:
-        '200':
-          description: Todo list
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ErrorResponse'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-    get:
-      summary: Get Todo by ID
-      tags: [Todo]
-      operationId: GetByIdTodo
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: integer
-          description: Todo ID
-      responses:
-        '200':
-          description: Todo details
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
   /api/Todo:
     post:
-      summary: Create Todo
-      tags: [Todo]
-      operationId: CreateTodo
+      tags:
+      - TodoController
+      summary: Create a new todo
+      operationId: create-todo
       requestBody:
-        required: true
         content:
           application/json:
             schema:
-              type: object
+              $ref: '#/components/schemas/ErrorResponse'
       responses:
-        '201':
+        201:
           description: Created
           content:
             application/json:
               schema:
+                type: object
+                properties:
+                  location:
+                    type: string
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
                 $ref: '#/components/schemas/ErrorResponse'
-    post:
-      summary: Create Todo
-      tags: [Todo]
-      operationId: CreateTodo
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-  /api/Todo/{id}:
-    delete:
-      summary: Delete Todo
-      tags: [Todo]
-      operationId: DeleteTodo
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: integer
-          description: Todo ID
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    get:
+      tags:
+      - TodoController
+      summary: Get all todos
+      operationId: getAll-todos
       responses:
-        '204':
-          description: Updated
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  title:
+                    type: string
+                  isCompleted:
+                    type: boolean
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    get:
+      tags:
+      - TodoController
+      summary: Get a todo by ID
+      operationId: get-todo-by-id
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: Internal Server Error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
     put:
-      summary: Update Todo
-      tags: [Todo]
-      operationId: UpdateTodo
+      tags:
+      - TodoController
+      summary: Update a todo
+      operationId: update-todo
       parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: integer
-          description: Todo ID
-      requestBody:
+      - name: id
+        in: path
         required: true
+        schema:
+          type: integer
+      requestBody:
         content:
           application/json:
             schema:
-              type: object
+              $ref: '#/components/schemas/Todo'
       responses:
-        '204':
-          description: Updated
+        204:
+          description: No Content
+          content:
+            application/json:
+              schema:
+                type: object
+        400:
+          description: Bad Request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-    put:
-      summary: Update Todo
-      tags: [Todo]
-      operationId: UpdateTodo
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: integer
-          description: Todo ID
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
     delete:
-      summary: Delete Todo
-      tags: [Todo]
-      operationId: DeleteTodo
+      tags:
+      - TodoController
+      summary: Delete a todo
+      operationId: delete-todo
       parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: integer
-          description: Todo ID
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
       responses:
-        '204':
-          description: Updated
+        204:
+          description: No Content
+          content:
+            application/json:
+              schema:
+                type: object
+        400:
+          description: Bad Request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
 components:
   schemas:
+    Todo:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        isCompleted:
+          type: boolean
     ErrorResponse:
       type: object
       properties:
-        error:
+        code:
+          type: integer
+        message:
           type: string
