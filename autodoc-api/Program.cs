@@ -55,7 +55,8 @@ app.MapPost("/generate-openapi", async (HttpRequest request, IHttpClientFactory 
 
     var json     = JsonSerializer.Serialize(requestBody);
     var content  = new StringContent(json, Encoding.UTF8, "application/json");
-    var response = await httpClient.PostAsync("http://localhost:11434/api/generate", content);
+   var ollamaHost = Environment.GetEnvironmentVariable("OLLAMA_HOST") ?? "http://host.docker.internal:11434";
+var response = await httpClient.PostAsync($"{ollamaHost}/api/generate", content);
     var responseBody = await response.Content.ReadAsStringAsync();
 
     if (!response.IsSuccessStatusCode)
