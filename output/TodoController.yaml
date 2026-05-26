@@ -1,0 +1,174 @@
+openapi: 3.0.3
+info:
+  title: Sample API
+  version: 1.0.0
+paths:
+  /api/Todo/{id?}:
+    get:
+      summary: Get all Todo
+      tags: [Todo]
+      operationId: GetAllTodo
+      responses:
+        '200':
+          description: Todo list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ErrorResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    get:
+      summary: Get Todo by ID
+      tags: [Todo]
+      operationId: GetByIdTodo
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: Todo ID
+      responses:
+        '200':
+          description: Todo details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/Todo:
+    post:
+      summary: Create Todo
+      tags: [Todo]
+      operationId: CreateTodo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      summary: Create Todo
+      tags: [Todo]
+      operationId: CreateTodo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+  /api/Todo/{id}:
+    delete:
+      summary: Delete Todo
+      tags: [Todo]
+      operationId: DeleteTodo
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: Todo ID
+      responses:
+        '204':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      summary: Update Todo
+      tags: [Todo]
+      operationId: UpdateTodo
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: Todo ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '204':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      summary: Update Todo
+      tags: [Todo]
+      operationId: UpdateTodo
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: Todo ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+    delete:
+      summary: Delete Todo
+      tags: [Todo]
+      operationId: DeleteTodo
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: Todo ID
+      responses:
+        '204':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
