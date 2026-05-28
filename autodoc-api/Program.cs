@@ -6,6 +6,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpClient();
 var app = builder.Build();
 
+// Serve files from wwwroot and use index.html for '/'.
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
 // AutoDoc REST API
 // Phase 2: Docker Backend Service
 // Receives controller code via HTTP POST

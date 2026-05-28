@@ -5,10 +5,13 @@ using System.Text.Json;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
-// AutoDoc — Automatic OpenAPI Documentation Generator
-// Phase 1: Console Application
-// Reads a C# controller file and generates enriched OpenAPI 3.0.3 YAML
-// Powered by Ollama (llama3.2) — runs locally, free, no API key needed
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddHttpClient();
+var app = builder.Build();
+
+// Serve files from wwwroot and use index.html for '/'.
+app.UseDefaultFiles();
+app.UseStaticFiles();
 
 // 1 Validate controller path argument
 if (args.Length == 0)

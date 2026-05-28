@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AutoDoc Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@5/swagger-ui.css" />
+  <style>
+    :root {
+      --bg: #0a0f17;
+      --bg-elevated: #111827;
+      --bg-panel: #141d2b;
+      --bg-soft: #1a2435;
+      --text: #e8edf7;
+      --text-muted: #95a2b8;
+      --accent: #37d0b4;
+      --accent-strong: #1da994;
+      --border: #273248;
+      --danger: #ef5a73;
+      --shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 0% 0%, #133353 0%, transparent 45%),
+        radial-gradient(circle at 100% 100%, #162b47 0%, transparent 40%),
+        linear-gradient(160deg, #080d14 0%, #0a0f17 60%, #0b1220 100%);
+      font-family: "Plus Jakarta Sans", "Segoe UI", sans-serif;
+    }
+
+    .page {
+      min-height: 100vh;
+      padding: 22px;
+      display: grid;
+      gap: 18px;
+      grid-template-columns: 1fr;
+      grid-template-rows: auto 1fr;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 6px;
+    }
+
+    .title {
+      margin: 0;
+      font-size: clamp(1.1rem, 1.9vw, 1.5rem);
+      letter-spacing: 0.02em;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      margin: 3px 0 0;
+      color: var(--text-muted);
+      font-size: 0.92rem;
+    }
+
+    .status-pill {
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(55, 208, 180, 0.08);
+      color: #bff7eb;
+      font-size: 0.82rem;
+      white-space: nowrap;
+    }
+
+    .content {
+      display: grid;
+      gap: 18px;
+      grid-template-columns: 1fr;
+    }
+
+    .panel {
+      border-radius: var(--radius);
+      background: linear-gradient(165deg, rgba(21, 30, 45, 0.95), rgba(13, 19, 30, 0.97));
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .panel-head {
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .panel-head h2 {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    .panel-body {
+      padding: 16px 18px;
+      display: grid;
+      gap: 12px;
+      min-height: 0;
+      flex: 1;
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+    }
+
+    .field label {
+      color: var(--text-muted);
+      font-size: 0.84rem;
+      font-weight: 500;
+    }
+
+    input,
+    textarea,
+    button {
+      font: inherit;
+      color: inherit;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--bg-soft);
+      color: var(--text);
+      padding: 10px 12px;
+      outline: none;
+      transition: border-color 180ms ease, box-shadow 180ms ease;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(55, 208, 180, 0.22);
+    }
+
+    textarea {
+      min-height: 420px;
+      resize: vertical;
+      line-height: 1.45;
+      font-family: "JetBrains Mono", Consolas, monospace;
+      font-size: 0.9rem;
+    }
+
+    .left-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .button-primary {
+      border: 0;
+      border-radius: 11px;
+      padding: 11px 16px;
+      background: linear-gradient(120deg, var(--accent), #3ab0ff);
+      color: #041019;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 160ms ease, filter 160ms ease;
+    }
+
+    .button-primary:hover {
+      transform: translateY(-1px);
+      filter: saturate(1.1);
+    }
+
+    .button-primary:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .error-text {
+      color: var(--danger);
+      font-size: 0.85rem;
+      min-height: 1.2em;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+    }
+
+    .tab-btn {
+      border: 1px solid var(--border);
+      background: #101827;
+      color: var(--text-muted);
+      padding: 8px 11px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.84rem;
+    }
+
+    .tab-btn[aria-selected="true"] {
+      color: var(--text);
+      border-color: var(--accent);
+      background: rgba(55, 208, 180, 0.14);
+    }
+
+    .tab-panel {
+      display: none;
+      min-height: 0;
+      flex: 1;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .tab-panel.active {
+      display: flex;
+      flex-direction: column;
+    }
+
+    pre {
+      margin: 0;
+      padding: 16px;
+      border-top: 1px solid var(--border);
+      background: #0c1320;
+      color: #dbe8ff;
+      min-height: 520px;
+      height: 100%;
+      overflow: auto;
+      font-family: "JetBrains Mono", Consolas, monospace;
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+
+    #swagger-container {
+      border-top: 1px solid var(--border);
+      background: #fff;
+      min-height: 520px;
+      overflow: auto;
+    }
+
+    #swagger-ui {
+      min-height: 520px;
+    }
+
+    .swagger-empty {
+      height: 100%;
+      min-height: 520px;
+      display: grid;
+      place-items: center;
+      color: #314158;
+      font-size: 0.95rem;
+      padding: 22px;
+      text-align: center;
+    }
+
+    @media (min-width: 1080px) {
+      .content {
+        grid-template-columns: minmax(360px, 46%) minmax(420px, 54%);
+      }
+
+      textarea {
+        min-height: 560px;
+      }
+
+      pre,
+      #swagger-container,
+      #swagger-ui,
+      .swagger-empty {
+        min-height: 620px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="header">
+      <div>
+        <h1 class="title">AutoDoc Dashboard</h1>
+        <p class="subtitle">Paste a C# controller and generate OpenAPI YAML instantly.</p>
+      </div>
+      <div id="api-status" class="status-pill">Ready</div>
+    </header>
+
+    <section class="content">
+      <article class="panel">
+        <div class="panel-head">
+          <h2>Controller Input</h2>
+        </div>
+        <div class="panel-body">
+          <div class="field">
+            <label for="controllerName">Controller Name</label>
+            <input id="controllerName" type="text" value="OrderController" placeholder="Example: TodoController" />
+          </div>
+
+          <div class="field">
+            <label for="controllerCode">C# Controller Code</label>
+            <textarea id="controllerCode" spellcheck="false" placeholder="Paste your ASP.NET Core controller code here..."></textarea>
+          </div>
+
+          <div class="left-actions">
+            <button id="generateBtn" class="button-primary" type="button">Generate OpenAPI Docs</button>
+            <div id="errorText" class="error-text" role="alert"></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-head">
+          <h2>Output</h2>
+          <nav class="tabs" aria-label="Output Tabs">
+            <button id="tabYaml" class="tab-btn" type="button" role="tab" aria-selected="true" aria-controls="panelYaml">Raw YAML</button>
+            <button id="tabSwagger" class="tab-btn" type="button" role="tab" aria-selected="false" aria-controls="panelSwagger">Swagger Preview</button>
+          </nav>
+        </div>
+
+        <section id="panelYaml" class="tab-panel active" role="tabpanel" aria-labelledby="tabYaml">
+          <pre id="yamlOutput">Generated YAML will appear here...</pre>
+        </section>
+
+        <section id="panelSwagger" class="tab-panel" role="tabpanel" aria-labelledby="tabSwagger">
+          <div id="swagger-container">
+            <div class="swagger-empty">Generate docs to render your API preview here.</div>
+          </div>
+        </section>
+      </article>
+    </section>
+  </main>
+
+  <script src="https://unpkg.com/swagger-ui-dist@5/swagger-ui-bundle.js"></script>
+  <script src="https://unpkg.com/swagger-ui-dist@5/swagger-ui-standalone-preset.js"></script>
+  <script>
+    (function () {
+      const controllerCodeEl = document.getElementById("controllerCode");
+      const controllerNameEl = document.getElementById("controllerName");
+      const generateBtnEl = document.getElementById("generateBtn");
+      const yamlOutputEl = document.getElementById("yamlOutput");
+      const errorTextEl = document.getElementById("errorText");
+      const statusEl = document.getElementById("api-status");
+      const swaggerContainerEl = document.getElementById("swagger-container");
+
+      const tabYamlEl = document.getElementById("tabYaml");
+      const tabSwaggerEl = document.getElementById("tabSwagger");
+      const panelYamlEl = document.getElementById("panelYaml");
+      const panelSwaggerEl = document.getElementById("panelSwagger");
+
+      let swaggerUiInstance = null;
+      let latestYaml = "";
+
+      function setStatus(message, isError) {
+        statusEl.textContent = message;
+        statusEl.style.background = isError ? "rgba(239, 90, 115, 0.16)" : "rgba(55, 208, 180, 0.08)";
+        statusEl.style.color = isError ? "#ffd4dc" : "#bff7eb";
+      }
+
+      function setTab(tabName) {
+        const showYaml = tabName === "yaml";
+
+        tabYamlEl.setAttribute("aria-selected", String(showYaml));
+        tabSwaggerEl.setAttribute("aria-selected", String(!showYaml));
+
+        panelYamlEl.classList.toggle("active", showYaml);
+        panelSwaggerEl.classList.toggle("active", !showYaml);
+      }
+
+      tabYamlEl.addEventListener("click", function () {
+        setTab("yaml");
+      });
+
+      tabSwaggerEl.addEventListener("click", function () {
+        setTab("swagger");
+      });
+
+      function renderSwagger(yamlText) {
+        if (!yamlText || !yamlText.trim()) {
+          swaggerContainerEl.innerHTML = "<div class='swagger-empty'>No YAML available yet.</div>";
+          return;
+        }
+
+        const swaggerUiMount = document.createElement("div");
+        swaggerUiMount.id = "swagger-ui";
+        swaggerContainerEl.innerHTML = "";
+        swaggerContainerEl.appendChild(swaggerUiMount);
+
+        const specUrl = URL.createObjectURL(new Blob([yamlText], { type: "application/yaml" }));
+
+        swaggerUiInstance = SwaggerUIBundle({
+          url: specUrl,
+          dom_id: "#swagger-ui",
+          deepLinking: true,
+          presets: [
+            SwaggerUIBundle.presets.apis,
+            SwaggerUIStandalonePreset
+          ],
+          layout: "BaseLayout"
+        });
+      }
+
+      function inferControllerName(sourceCode) {
+        const match = sourceCode.match(/class\s+([A-Za-z_][A-Za-z0-9_]*)\s*[:{]/);
+        return match ? match[1] : "Controller";
+      }
+
+      async function generateOpenApi() {
+        errorTextEl.textContent = "";
+
+        const controllerCode = controllerCodeEl.value.trim();
+        if (!controllerCode) {
+          errorTextEl.textContent = "Please paste controller code before generating.";
+          setStatus("Input required", true);
+          return;
+        }
+
+        const controllerName = controllerNameEl.value.trim() || inferControllerName(controllerCode);
+
+        generateBtnEl.disabled = true;
+        generateBtnEl.textContent = "Generating...";
+        setStatus("Calling /generate-openapi", false);
+
+        try {
+          const response = await fetch("/generate-openapi", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              controllerCode,
+              controllerName
+            })
+          });
+
+          const payload = await response.json().catch(function () {
+            return {};
+          });
+
+          if (!response.ok) {
+            const message = payload.error || payload.title || "Request failed.";
+            throw new Error(message);
+          }
+
+          const yaml = payload.yaml || "";
+          latestYaml = yaml;
+          yamlOutputEl.textContent = yaml || "No YAML returned from API.";
+          renderSwagger(yaml);
+          setStatus("OpenAPI generated", false);
+        } catch (error) {
+          const message = error && error.message ? error.message : "Unexpected error while generating docs.";
+          errorTextEl.textContent = message;
+          setStatus("Generation failed", true);
+        } finally {
+          generateBtnEl.disabled = false;
+          generateBtnEl.textContent = "Generate OpenAPI Docs";
+        }
+      }
+
+      generateBtnEl.addEventListener("click", generateOpenApi);
+
+      controllerCodeEl.value = "[ApiController]\n[Route(\"api/[controller]\")]\npublic class TodoController : ControllerBase\n{\n    [HttpGet]\n    public IActionResult GetAll() => Ok(new[] { \"Task 1\", \"Task 2\" });\n}";
+      latestYaml = "";
+    })();
+  </script>
+</body>
+</html>
