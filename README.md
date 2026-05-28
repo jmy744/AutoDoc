@@ -1,27 +1,22 @@
-# AutoDoc 🤖
+# AutoDoc
 
-> Automatically generate enriched OpenAPI 3.0.3 documentation 
-> from raw C# ASP.NET Core controllers using local AI — no manual 
-> annotations required.
-
-![AutoDoc Dashboard](docs/screenshots/dashboard.png)
+> Automatically generate enriched OpenAPI 3.0.3 documentation from raw C# ASP.NET Core controllers using local AI - no manual annotations required.
+<img width="1912" height="912" alt="Screenshot 2026-05-28 135113" src="https://github.com/user-attachments/assets/1fe9dd36-c3f2-47f9-a7e8-dde24da477a2" />
 
 ---
 
 ## What it does
 
-Paste any ASP.NET Core controller. AutoDoc reads the raw C# code 
-and infers everything automatically:
+Paste any ASP.NET Core controller. AutoDoc reads the raw C# code and infers everything automatically:
 
-- ✅ Routes and HTTP methods
-- ✅ Operation IDs and summaries
-- ✅ Request body schemas
-- ✅ Response codes (200, 201, 400, 404, 500)
-- ✅ Error schemas
-- ✅ Live Swagger Preview
+- Routes and HTTP methods
+- Operation IDs and summaries
+- Request body schemas
+- Response codes (200, 201, 400, 404, 500)
+- Error schemas
+- Live Swagger Preview
 
-No `[ProducesResponseType]`. No `[SwaggerOperation]`. No XML 
-comments. Just raw C# code.
+No `[ProducesResponseType]`. No `[SwaggerOperation]`. No XML comments. Just raw C# code.
 
 ---
 
@@ -29,9 +24,9 @@ comments. Just raw C# code.
 
 | Phase | What it is |
 |---|---|
-| 🖥️ Phase 1 — Console App | Proof of concept, YAML printed to terminal |
-| 🐳 Phase 2 — Docker Web API | REST backend, callable via HTTP POST |
-| 🎮 Phase 3 — Playground UI | Browser dashboard, paste and generate instantly |
+| Phase 1 - Console App | Proof of concept, YAML printed to terminal |
+| Phase 2 - Docker Web API | REST backend, callable via HTTP POST |
+| Phase 3 - Playground UI | Browser dashboard, paste and generate instantly |
 
 ---
 
@@ -128,10 +123,8 @@ Response:
 
 ## Built with GitHub Copilot
 
-This project was built as part of the 
-[GitHub Finish-Up-A-Thon Challenge](https://dev.to/challenges/github-2026-05-21).
-GitHub Copilot was used throughout — for the Docker API conversion, 
-the Playground UI, and the YAML post-processing pipeline.
+This project was built as part of the [GitHub Finish-Up-A-Thon Challenge](https://dev.to/challenges/github-2026-05-21).
+GitHub Copilot was used throughout for the Docker API conversion, the Playground UI, and the YAML post-processing pipeline.
 
 ---
 
